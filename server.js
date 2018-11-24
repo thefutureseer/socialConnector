@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
+const gravatar = require('gravatar');
 
 
 const app = express();
