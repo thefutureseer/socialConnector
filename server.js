@@ -27,7 +27,10 @@ app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
-app.get('/', (req, res) => res.send('Hello World!'));
+//passport middleware
+app.use(passport.initialize());
+// passport config with jwt strategy
+require('./config/passport.js')(passport);
 
 const port = process.env.PORT || 5000;
 
