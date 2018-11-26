@@ -8,7 +8,6 @@ const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 const gravatar = require('gravatar');
 
-
 const app = express();
 
 //body parser middleware 2 peices
@@ -31,8 +30,9 @@ app.use('/api/posts', posts);
 
 //passport middleware
 app.use(passport.initialize());
+
 // passport config with jwt strategy
-require('./config/passport.js')(passport);
+require('./config/passport')(passport);
 
 const port = process.env.PORT || 5000;
 
