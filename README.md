@@ -1,4 +1,4 @@
 # socialConnector
 
 Exclusive groups connect for business and pleasure.
-Rated G for the whole family
+Rated G inclusive for the whole family.
