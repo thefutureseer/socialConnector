@@ -1,3 +1,4 @@
+//Lodash could work instead.This cut down the amount of libraries added to the app.
 const isEmpty = value =>
     value === undefined ||
     value === null ||
