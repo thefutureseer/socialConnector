@@ -50,11 +50,12 @@ const ProfileSchema = new Schema({
       type: String
     },
     from: {
-      type: String,
+      type: Date,
       required: true
     },
     to: {
       type: Date,
+ // check box for current
     },
     current: {
       type: Boolean,
@@ -64,7 +65,7 @@ const ProfileSchema = new Schema({
     type: String
     }
   }],
-  experience: [
+  education: [
     {
     school: {
       type: String,
