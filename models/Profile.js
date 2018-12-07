@@ -93,8 +93,7 @@ const ProfileSchema = new Schema({
     discription: {
      type: String
     }
-  }
-  ],
+  }],
   social: {
    youtube: {
     type: String
@@ -112,10 +111,10 @@ const ProfileSchema = new Schema({
     type: String
    }
   },
-      date: {
-      type: Date,
-      default: Date.now
-    }
-  });
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-module.exports = Profile = mongoose.model('Profile', ProfileSchema)
+module.exports = Profile = mongoose.model('profile', ProfileSchema);

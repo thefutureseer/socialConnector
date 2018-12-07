@@ -3,8 +3,11 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+//load validation
+const validateProfileInput = require('../../validation/profile');
+
 //load profile model
-const Profile = require('../../models/profile');
+const Profile = require('../../models/Profile');
 //load user profile
 const User = require('../../models/User');
 
@@ -23,6 +26,7 @@ router.get(
    const errors = {};
 
     Profile.findOne({ user: req.user.id })
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
       if(!profile) {
         errors.noprofile = 'There is no profile for this user';
@@ -42,6 +46,14 @@ router.post(
   '/', 
   passport.authenticate('jwt', { session: false }), 
   (req, res) => {
+    const { errors, isValid} = validateProfileInput(req.body);
+
+    //check validation
+    if(!isValid){
+      //Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
     // Get fields
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -60,14 +72,13 @@ router.post(
 
     // social
     profileFields.social = {};
-    if(req.body.youtube) profileFields.youtube = req.body.youtube;
-    if(req.body.twitter) profileFields.twitter = req.body.twitter;
-    if(req.body.facebook) profileFields.facebook = req.body.facebook;
-    if(req.body.linkedin) profileFields.linkedin = req.body.linkedin;
-    if(req.body.instagram) profileFields.instagram = req.body.instagram;
-    if(req.body.instagram) profileFields.instagram = req.body.instagram;
+    if(req.body.youtube) profileFields.social.youtube = req.body.youtube;
+    if(req.body.twitter) profileFields.social.twitter = req.body.twitter;
+    if(req.body.facebook) profileFields.social.facebook = req.body.facebook;
+    if(req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
+    if(req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
-    Profil.findOne({ user: req.user.id })
+    Profile.findOne({ user: req.user.id })
      .then(profile => {
        if(profile) {
     //update
@@ -79,7 +90,7 @@ router.post(
        } else {
     //create
     //check if handle exists
-         Profile.findOne({handle: profileFields.handle}),then(profile => {
+         Profile.findOne({handle: profileFields.handle}).then(profile => {
            if(profile) {
             errors.handle = "that handle already exists";
             res.status(400).json(errors);
