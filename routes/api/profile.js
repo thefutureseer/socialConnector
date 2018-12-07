@@ -38,9 +38,53 @@ router.get(
   }
 );
 
+// @route GET api/profile/handle/ :handle(actual handle) gets hit by frontend, not actually used by user.
+// description  GET profile by handle. 
+// @access@Public no passport middleware, don't have to be logedin to see profiles
+//use Profile model findone by handle. get handle from url by req.params.handle
+//when get the profile populate it with user stuff populate'user''name', 'avatar'
+//catch promise with THEN, check if profile with that handle, errors if no profile
+
+router.get('/handle/:handle', (req, res) => {
+  const errors = {};
+
+  Profile.findOne({ handle: req.params.handle })
+  .populate('user', ['name', 'avatar'])
+  .then(profile => {
+    if(!profile) {
+      errors.noprofile = 'THere is no profile for user';
+      res.status(404).json(errors);
+    }
+    res.json(profile);
+  })
+  .catch(err => res.status(404).json(err));
+});
+
+
+// @route GET api/profile/user/ :user_id (actual handle) gets hit by frontend, not actually used by client.
+// description  GET profile by user. 
+// @access@Public no passport middleware, don't have to be logedin to see profiles
+//use Profile model findone by user. get user from url by req.params.user_id
+//when get the profile populate it with user stuff populate'user''name', 'avatar'
+//catch promise with THEN, check if profile with that handle, errors if no profile
+
+router.get('/user/:user_id', (req, res) => {
+  const errors = {};
+  
+  Profile.findOne({ user: req.params.user_id })
+  .populate('user', ['name', 'avatar'])
+  .then(profile => {
+    if(!profile) {
+      errors.noprofile = 'THere is no profile for user';
+      res.status(404).json(errors);
+    }
+    res.json(profile);
+  })
+  .catch(err => res.status(404).json(err));
+});
 
 // @route POST api/profile
-// description  create users profile.
+// description  create -edit users profile.
 // @access@Private
 router.post(
   '/', 
