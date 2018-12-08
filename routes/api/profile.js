@@ -5,6 +5,8 @@ const passport = require('passport');
 
 //load validation
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 //load profile model
 const Profile = require('../../models/Profile');
@@ -115,13 +117,13 @@ router.post(
   (req, res) => {
     const { errors, isValid} = validateProfileInput(req.body);
 
-    //check validation
+//check validation
     if(!isValid){
-      //Return any errors with 400 status
+//Return any errors with 400 status
       return res.status(400).json(errors);
     }
 
-    // Get fields
+// Get fields
     const profileFields = {};
     profileFields.user = req.user.id;
     if(req.body.handle) profileFields.handle = req.body.handle;
@@ -132,12 +134,12 @@ router.post(
     if(req.body.status) profileFields.status = req.body.status;
     if(req.body.githubusername) profileFields.githubusername = req.body.githubusername;
 
-    //skills - split into array
+//skills - split into array
     if(typeof req.body.skills !== 'undefined') {
       profileFields.skills = req.body.skills.split(',');
     }
 
-    // social
+// social
     profileFields.social = {};
     if(req.body.youtube) profileFields.social.youtube = req.body.youtube;
     if(req.body.twitter) profileFields.social.twitter = req.body.twitter;
@@ -148,26 +150,57 @@ router.post(
     Profile.findOne({ user: req.user.id })
      .then(profile => {
        if(profile) {
-    //update
+//update
          Profile.findOneAndUpdate(
            { user: req.user.id}, 
            { $set: profileFields }, 
            { new: true}
           ).then(profile => res.json(profile));
        } else {
-    //create
-    //check if handle exists
+//create
+//check if handle exists
          Profile.findOne({handle: profileFields.handle}).then(profile => {
            if(profile) {
             errors.handle = "that handle already exists";
             res.status(400).json(errors);
            }
-    //save profile
+//save profile
            new Profile(profileFields).save().then(profile => res.json(profile));
          });
         }
      });
   }
 );
+
+// @route POST api/profile/education
+// description add education to profile
+// @access Private
+
+router.post('/education', passport.authenticate('jwt',{ session: false }), (req, res) => {
+  const { errors, isValid} = validateEducationInput(req.body);
+
+  //check validation
+      if(!isValid){
+  //Return any errors with 400 status
+        return res.status(400).json(errors);
+      }
+
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    const newExp = {
+      school: req.body.school,
+      degree: req.body.degree,
+      fieldofstudy: req.body.fieldofstudy,
+      from: req.body.from,
+      to: req.body.to,
+      current: req.body.current,
+      description: req.body.description
+    }
+ //add to experience array
+    profile.education.unshift(newEdu);
+    profile.save().then(profile => res.json(profile));
+
+  })
+});
 
 module.exports = router;

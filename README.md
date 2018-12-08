@@ -1,5 +1,5 @@
 # socialConnector
-Currently under construction 
+*Currently under construction*
 
 Exclusive groups connect for business and pleasure.
 Awareness, support and band-aids.
