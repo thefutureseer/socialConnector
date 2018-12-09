@@ -7,6 +7,8 @@ module.exports = function validateExperienceInput(data) {
   data.title = !isEmpty(data.title) ? data.title : ''; 
   data.company = !isEmpty(data.company) ? data.company : ''; 
   data.from = !isEmpty(data.from) ? data.from : '';
+ // data.to = !isEmpty(data.to) ? data.to : '';
+
 
   if (Validator.isEmpty(data.title)) {
     errors.title = 'Job title field is required.';
