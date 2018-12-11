@@ -8,17 +8,20 @@ Rated G inclusive for the whole family.
 
 Deployed live on Heroku
 
+Exctensive API with Json Web token authentication. In depth profiles with features to be exited about and more.
+
 Javascript
+Node
 ES6
 Express
 Api's
-Mongo
 Register
 Login
 Json web token
 Bear token
-Validation
+Authentication
 React
 Redux
+Mongo
 Limited Libraries
 and more
