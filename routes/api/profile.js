@@ -16,7 +16,7 @@ const User = require('../../models/User');
 // @route GET api/profile/test
 // description test profile route
 // @access Public
-router.get('/test', (req, res) => res.json({msg: "profile works"}));
+router.get('/test', (req, res) => res.json({msg: "Profile works"}));
 
 // @route GET api/profile
 // description  get current users profile. need to be loged in to do so
@@ -243,14 +243,13 @@ router.post('/education', passport.authenticate('jwt',{ session: false }), (req,
 // @access Private
 
 router.delete(
-  '/experience/:exp_1', 
+  '/experience/:exp_id', 
   passport.authenticate('jwt',{ session: false }), 
   (req, res) => {
 
    Profile.findOne({ user: req.user.id }).then(profile => {
- //   GET/remove index
+ //   Get remove index ,higher order method "map"
    const removeIndex = profile.experience
- //higher order method "map"
     .map(item => item.id)
     .indexOf(req.params.exp_id );
 
@@ -268,7 +267,7 @@ router.delete(
 // description delete education from profile
 // @access Private
 router.delete(
-  '/education/:edu_1', 
+  '/education/:edu_id', 
   passport.authenticate('jwt',{ session: false }), 
   (req, res) => {
 
@@ -296,8 +295,8 @@ router.delete(
   '/', 
   passport.authenticate('jwt', { session: false }), 
   (req, res) => {
-    Profile.findOneAndDelete({ user: req.body.id }).then(() => {  
-      User.findOneAndDelete({ _id: req.user.id }).then(() => 
+    Profile.findOneAndRemove({ user: req.body.id }).then(() => {  
+      User.findOneAndRemove({ _id: req.user.id }).then(() => 
         res.json({ success: true })
       );
     });
