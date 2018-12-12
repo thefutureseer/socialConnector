@@ -6,6 +6,9 @@ const passport = require('passport');
 // Post model
 const Post = require('../../models/Post');
 
+//Profile model
+const Profile = require('../../models/Profile');
+
 // validation
 const validatePostInput = require('../../validation/post');
 
@@ -21,7 +24,7 @@ router.get('/', (req, res) => {
   Post.find()
   .sort({ date: -1 })
   .then(posts => res.json(posts))
-  .catch(res.status(404).json( { nopostsfound: 'no posts found' } ));
+  .catch(err => res.status(404).json({ nopostsfound: 'no posts found' }));
 });
 
 //route GET api/posts/:id
@@ -56,6 +59,29 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   });
 //save, then give the post  
   newPost.save().then(post => res.json(post));
+});
+
+//route delete api/posts/:id
+//desc delete the post
+//access private
+router.delete(
+  '/:id', 
+  passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
+  Profile.findOne({ user: req.user.id })
+  .then(profile => {
+    Post.findById(req.params.id)
+    .then(post => {
+//check for post owner
+      if(post.user.toString() !== req.user.id) {
+        return res.status(401).json({ notauthorized: 'user not authorized' });
+      }
+
+//delete 
+      post.remove().then(() => res.json({ success: true}));
+    })
+    .catch(err => res.status(404).json({ postnotfound: 'no post found'}));
+  })
 });
 
 module.exports = router;
