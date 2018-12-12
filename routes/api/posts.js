@@ -61,7 +61,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
   newPost.save().then(post => res.json(post));
 });
 
-//route delete api/posts/:id
+//route DELETE api/posts/:id
 //desc delete the post
 //access private
 router.delete(
@@ -77,11 +77,40 @@ router.delete(
         return res.status(401).json({ notauthorized: 'user not authorized' });
       }
 
-//delete 
+//DELETE 
       post.remove().then(() => res.json({ success: true}));
     })
     .catch(err => res.status(404).json({ postnotfound: 'no post found'}));
   })
 });
+
+// route POST api/posts/like/:id
+//desc like post
+//access public
+router.post(
+  '/like/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      Post.findById(req.params.id)
+      .then(post => {
+        if (
+          post.likes.filter(like => like.user.toString() === req.user.id)
+           .length > 0
+        ) {
+          return res
+           .status(400)
+           .json({ alreadyliked: 'user already liked this post' });
+        }
+//add user id to the likes array
+        post.likes.unshift({ user: req.user.id });
+
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({postnotfound: 'No post found'}));
+    });
+  }
+);
+
 
 module.exports = router;
