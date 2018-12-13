@@ -15,7 +15,7 @@ const validatePostInput = require('../../validation/post');
 //@route GET api/posts/test
 //desc(discription) test post route
 //@access public
-router.get('/test', (req, res) => res.json({msg: "posts works"}));
+router.get('/test', (req, res) => res.json({msg: 'posts works'}));
 
 //route: GET api/posts
 //desc get posts
@@ -42,7 +42,8 @@ router.get('/:id', (req, res) => {
 //route: POST api/posts
 //desc: create post
 //access Private
-router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), 
+(req, res) => {
   const { errors, isValid } = validatePostInput(req.body);
 
 // Check validation
@@ -68,13 +69,15 @@ router.delete(
   '/:id', 
   passport.authenticate('jwt', { session: false }), 
   (req, res) => {
-  Profile.findOne({ user: req.user.id })
-  .then(profile => {
+  Profile.findOne({ user: req.user.id }).then(profile => {
     Post.findById(req.params.id)
     .then(post => {
 //check for post owner
-      if(post.user.toString() !== req.user.id) {
-        return res.status(401).json({ notauthorized: 'user not authorized' });
+      if(post.user
+        .toString() !== req.user.id) {
+        return res
+        .status(401)
+        .json({ notauthorized: 'user not authorized' });
       }
 
 //DELETE 
@@ -154,6 +157,7 @@ router.post(
   passport.authenticate('jwt', { session: false }), 
   (req, res) => {
     const { errors, isValid } = validatePostInput(req.body);
+
 //check validation
     if(!isValid) {
 //errors send 404 with errors object
@@ -167,13 +171,42 @@ router.post(
         name: req.body.name,
         avatar: req.body.avatar,
         user: req.user.id
-      }
+      };
+
 //Add a comments array
       post.comments.unshift(newComment);
+
 //save
-      post.save().then(post => res.json(post))
+      post.save().then(post => res.json(post));
     })
-    .catch(err => res.status(404).json({ postnotfound: "no post found"}));
-});
+    .catch(err => res.status(404).json({ postnotfound: 'no post found'}));
+  }
+);
+
+//route DELETE api/posts/comments/:id/:comment_:id
+//remove comment from post
+//access private
+router.delete(
+  '/comment/:id/:comment_id', passport.authenticate('jwt', {session: false}),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then(post => {
+//Check to see if comment exists
+        if (post.comments.filter(
+          comment => comment._id.toString() === req.params.comment_id).length 
+        === 0) {
+          return res.status(404).json({ commentnotexists: 'comment does not exist'});
+        }
+//Get remove index
+        const removeIndex = post.comments
+        .map(item => item._id.toString())
+        .indexOf(req.params.comment_id);
+//to remove splice out of array
+        post.comments.splice(removeIndex, 1);
+        post.save().then(post => res.json(post));
+    })
+    .catch(err => res.status(404).json({ postnotfound: 'no post found'}));
+  }
+);
 
 module.exports = router;
