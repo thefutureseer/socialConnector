@@ -8,13 +8,12 @@ class Landing extends Component {
         <div className="container">
          <div className="row">
           <div className="col-md-12 text-center">
-           <h1 className="display-3 mb-4"> Social Media for the community
+           <h1 className="display-3 mb-4"> Fun for everyone
            </h1>
-           <p className="lead"> Choose to create a profile, portfolio of awarness, 
-           share posts and get help from other crackers</p>
+           <p className="lead">{' '} Awareness, community and band-aids</p>
            <hr />
-           <a href="register.html" className="btn btn-lg btn-info mr-2"> No sign up unless you insist</a>
-           <a href="login.html" className="btn btn-lg btn-light"> No login unless you insist</a>
+           <a href="register.html" className="btn btn-lg btn-info mr-2"> No sign up</a>
+           <a href="login.html" className="btn btn-lg btn-light"> No login</a>
           </div>
          </div>
         </div>
