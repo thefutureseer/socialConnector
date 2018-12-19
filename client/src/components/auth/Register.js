@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 
 class Register extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      password2: '',
+      errors: {}
+    };
+
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value});
+  }
+
   render() {
     return (
       <div className="register">
@@ -18,23 +35,44 @@ class Register extends Component {
                className="form-control form-control-lg"
                placeholder="Name"
                name="name"
-               required
+               value={this.state.name}
+               onChange={this.onChange}
                />
              </div>
              <div className="form-group">
-               <input type="email" className="form-control form-control-lg" placeholder="Email Address"
-               name="email" />
-               <small className="form-text text-muted"> Use a gravatar email if you want a profile image.</small>
+               <input 
+               type="email" 
+               className="form-control form-control-lg" 
+               placeholder="Email Address"
+               name="email" 
+               value={this.state.email}
+               onChange={this.onChange} 
+               />
+               <small className="form-text text-muted"> 
+                Use a gravatar email if you want a profile image.
+               </small>
              </div>
              <div className="form-group">
-              <input type="password" className="form-control form-control-lg" placeholder="Password"
-              name="password" />
+              <input 
+              type="password" 
+              className="form-control form-control-lg" 
+              placeholder="Password"
+              name="password" 
+              value={this.state.password}
+              onChange={this.onChange} />
              </div>
              <div className="form-group">
-              <input type="password" className="form-control form-control-lg" placeholder="Confirm Password" 
-              name="password2" />
+              <input 
+              type="password" 
+              className="form-control form-control-lg" 
+              placeholder="Confirm Password" 
+              name="password2" 
+              value={this.state.password2}
+              onChange={this.onChange} />
              </div>
-             <input type="submit" className="btn btn-info btn-block mt-4"  />
+             <input 
+             type="submit" 
+             className="btn btn-info btn-block mt-4"  />
             </form>
            </div>
           </div>
