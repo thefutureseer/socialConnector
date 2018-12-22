@@ -24,9 +24,12 @@
     "mongoose": "^5.3.13",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "redux": "^4.0.1",
+    "update": "^0.7.4",
     "validator": "^10.9.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.8"
-  }
+  },
+  "repository": "https://github.com/thefutureseer/socialConnector.git"
 }
