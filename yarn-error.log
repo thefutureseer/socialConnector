@@ -1,0 +1,72 @@
+Arguments: 
+  /usr/local/Cellar/node/10.11.0/bin/node /usr/local/bin/yarn start
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  10.11.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "socialconnectorpatch",
+    "version": "1.0.0",
+    "description": "Social network to patch the world",
+    "main": "server.js",
+    "scripts": {
+      "client-install": "npm install --prefix client",
+      "start": "node server.js",
+      "server": "nodemon server.js",
+      "client": "npm start --prefix client",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "author": "Daniel H. T.",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^3.0.2",
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.18.3",
+      "concurrently": "^4.1.0",
+      "create-react-app": "^2.1.1",
+      "express": "^4.16.4",
+      "gravatar": "^1.8.0",
+      "jsonwebtoken": "^8.4.0",
+      "mongoose": "^5.3.13",
+      "passport": "^0.4.0",
+      "passport-jwt": "^4.0.0",
+      "redux": "^4.0.1",
+      "update": "^0.7.4",
+      "validator": "^10.9.0"
+    },
+    "devDependencies": {
+      "nodemon": "^1.18.8"
+    },
+    "repository": "https://github.com/thefutureseer/socialConnector.git"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c node server.js
+  Directory: /Users/firedragonnow/fullStackApps/socialConnector
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at ChildProcess.emit (events.js:182:13)
+      at maybeClose (internal/child_process.js:962:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:251:5)

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions'; 
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Register extends Component {
   constructor() {
@@ -56,39 +57,22 @@ class Register extends Component {
              Create your profile
             </p>
             <form noValidate onSubmit={this.onSubmit}>
-             <div className="form-group">
-              <input
-               type="text"
-               className={ classnames('form-control form-control-lg', { 
-                 'is-invalid':errors.name
-                })}
-               placeholder="Name"
-               name="name"
-               value={this.state.name}
-               onChange={this.onChange}
-               />
-               {errors.name && (
-                 <div className="invalid-feedback">{errors.name}</div>
-               )}
-             </div>
-             <div className="form-group">
-               <input 
-               type="email" 
-               className={classnames('form-control form-control-lg', {
-                'is-invalid': errors.email
-               })}
-               placeholder="Email Address"
-               name="email" 
-               value={this.state.email}
-               onChange={this.onChange} 
-               />
-               {errors.email && (
-                 <div className="invalid-feedback">{errors.email}</div>
-               )}
-               <small className="form-text text-muted"> 
-                Use a gravatar email if you want a profile image.
-               </small>
-             </div>
+            <TextFieldGroup
+             placeholder="Name"
+             name="name"
+             value={this.state.name}
+             onChange={this.onChange}
+             error={errors.name}
+             />
+            <TextFieldGroup
+             placeholder="Email"
+             name="email"
+             type="email"
+             value={this.state.email}
+             onChange={this.onChange}
+             error={errors.email}
+             info="Use a gravatar email if you want a profile image."
+             />
              <div className="form-group">
               <input 
               type="password" 
