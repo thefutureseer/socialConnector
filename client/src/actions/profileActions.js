@@ -23,7 +23,7 @@ export const createProfile= (profileData, history) => dispatch => {
        payload: err.response.data
      })
    );
-}
+};
 //Profile loading
 export const setProfileLoading = () => {
   return {
